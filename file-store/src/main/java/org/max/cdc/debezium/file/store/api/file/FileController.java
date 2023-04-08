@@ -2,7 +2,6 @@ package org.max.cdc.debezium.file.store.api.file;
 
 import io.micronaut.context.annotation.Property;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
@@ -14,7 +13,6 @@ import io.micronaut.scheduling.annotation.ExecuteOn;
 import jakarta.inject.Inject;
 import java.net.URI;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import org.max.cdc.debezium.file.store.api.ErrorResponse;
 import org.max.cdc.debezium.file.store.domain.model.FileData;
@@ -24,8 +22,6 @@ import org.max.cdc.debezium.file.store.domain.service.file.FileService;
 @ExecuteOn(TaskExecutors.IO)
 public class FileController {
 
-    //private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
     private final FileService fileService;
     private final String contextPath;
 
@@ -33,7 +29,7 @@ public class FileController {
     public FileController(FileService fileService,
                           @Property(name = "micronaut.server.context-path") String contextPath) {
         this.fileService = fileService;
-        this.contextPath = Objects.requireNonNull(contextPath, "null 'contextPath' detected");
+        this.contextPath = contextPath;
     }
 
     @Post(consumes = MediaType.APPLICATION_JSON)
