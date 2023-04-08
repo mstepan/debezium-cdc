@@ -38,7 +38,7 @@
             (
             file_id VARCHAR(64) NOT NULL,
             type VARCHAR(64) NOT NULL,
-            payload VARCHAR(64) NOT NULL,
+            payload JSONB NOT NULL,
             CONSTRAINT file_event_pk PRIMARY KEY (file_id)
             );
         </sql>

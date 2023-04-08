@@ -20,7 +20,7 @@ public class GlobalExceptionHandler implements ExceptionHandler<Exception, HttpR
     @Override
     public HttpResponse<ErrorResponse> handle(HttpRequest request, Exception ex) {
 
-        LOG.error(ex.getMessage());
+        LOG.error(ex.getMessage(), ex);
 
         ErrorResponse response = new ErrorResponse("Internal Server Error",
             "Something wrong with the server");

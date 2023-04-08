@@ -3,9 +3,12 @@ package org.max.cdc.debezium.file.store.domain.model;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
+import io.micronaut.data.annotation.TypeDef;
+import io.micronaut.data.model.DataType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +30,7 @@ public class FileOutbox {
     private String type;
 
     @Column(name = "payload")
-    private String payload;
+    @TypeDef(type = DataType.JSON)
+    private Map<String, Object> payload;
 
 }
