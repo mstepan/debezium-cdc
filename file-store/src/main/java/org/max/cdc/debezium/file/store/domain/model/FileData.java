@@ -16,7 +16,7 @@ import lombok.Data;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @MappedEntity
 @Table(name = "file_data")
-@Introspected // required for native-image
+@Introspected
 @SuppressWarnings("MissingSummary")
 @Schema(requiredProperties = {"id", "name"})
 public class FileData {

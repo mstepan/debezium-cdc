@@ -27,14 +27,14 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="create_file_event_table" author="maksym.stepanenko">
-        <preConditions onFail="CONTINUE" onFailMessage="file_event table already exist">
+    <changeSet id="create_file_outbox_table" author="maksym.stepanenko">
+        <preConditions onFail="CONTINUE" onFailMessage="file_outboxtable already exist">
             <not>
-                <tableExists tableName="file_event"/>
+                <tableExists tableName="file_outbox"/>
             </not>
         </preConditions>
         <sql dbms="all">
-            CREATE TABLE file_event
+            CREATE TABLE file_outbox
             (
             file_id VARCHAR(64) NOT NULL,
             type VARCHAR(64) NOT NULL,
@@ -44,7 +44,7 @@
         </sql>
         <rollback>
             <sql>
-                DROP TABLE file_event;
+                DROP TABLE file_outbox;
             </sql>
         </rollback>
     </changeSet>

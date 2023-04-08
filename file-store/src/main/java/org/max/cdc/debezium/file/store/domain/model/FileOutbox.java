@@ -13,11 +13,11 @@ import lombok.Data;
 @Data
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @MappedEntity
-@Table(name = "file_event")
-@Introspected // required for native-image
+@Table(name = "file_outbox")
+@Introspected
 @SuppressWarnings("MissingSummary")
-@Schema(requiredProperties = {"fileId", "type"})
-public class FileEvent {
+@Schema(requiredProperties = {"fileId", "type", "payload"})
+public class FileOutbox {
 
     @Id
     @Column(name = "file_id")

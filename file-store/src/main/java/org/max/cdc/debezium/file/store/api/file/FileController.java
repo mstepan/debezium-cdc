@@ -37,25 +37,24 @@ public class FileController {
     }
 
     @Post(consumes = MediaType.APPLICATION_JSON)
-    public HttpResponse<?> create(@Body FileDto data) {
+    public HttpResponse<?> create(@Body FileCreateRequest data) {
 
         FileData entity = data.toEntity();
 
         Optional<FileData> maybeMeta = fileService.create(entity);
-        if (maybeMeta.isPresent()) {
-            URI location = getLocation(maybeMeta.get().getId());
-            return HttpResponse.created(location);
+
+        if (maybeMeta.isEmpty()) {
+            return HttpResponse
+                .badRequest(
+                    new ErrorResponse("File Creation Failed",
+                        "Failed to create file",
+                        Map.of("id", entity.getId(),
+                            "name", data.name())));
+
         }
 
-        ErrorResponse errorResponse = new ErrorResponse(
-            "File Creation Failed",
-            "Failed to create file",
-            Map.of("id", entity.getId(),
-                "name", data.name()));
-
-        return HttpResponse
-            .status(HttpStatus.BAD_REQUEST)
-            .body(errorResponse);
+        URI location = getLocation(maybeMeta.get().getId());
+        return HttpResponse.created(location);
     }
 
     @Get(uri = "/{id}", produces = MediaType.APPLICATION_JSON)
@@ -63,16 +62,14 @@ public class FileController {
 
         Optional<FileData> maybeFileData = fileService.getById(fileId);
 
-        if( maybeFileData.isEmpty() ){
-            return HttpResponse
-                .status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse("File not found",
+        if (maybeFileData.isEmpty()) {
+            return HttpResponse.notFound(
+                new ErrorResponse("File not found",
                     "Can't find file by 'id'",
                     Map.of("id", fileId)));
         }
 
-        return HttpResponse
-            .ok(maybeFileData.get());
+        return HttpResponse.ok(maybeFileData.get());
     }
 
     private URI getLocation(String id) {

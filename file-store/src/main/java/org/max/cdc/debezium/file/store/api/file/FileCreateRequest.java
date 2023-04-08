@@ -5,9 +5,9 @@ import io.micronaut.core.annotation.Introspected;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.max.cdc.debezium.file.store.domain.model.FileData;
 
-@Introspected // required for native-image
+@Introspected
 @Schema(requiredProperties = {"id", "name"})
-public record FileDto(
+public record FileCreateRequest(
 
     @JsonProperty("id") String id,
 
