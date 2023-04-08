@@ -14,9 +14,9 @@
         <sql dbms="all">
             CREATE TABLE file_data
             (
-                id                   VARCHAR(64)          NOT NULL,
-                name                 VARCHAR(50)          NOT NULL,
-                format               VARCHAR(50),
+                id VARCHAR(64)NOT NULL,
+                name VARCHAR(50) NOT NULL,
+                format VARCHAR(64),
                 CONSTRAINT file_data_pk PRIMARY KEY (id)
             );
         </sql>
@@ -36,9 +36,9 @@
         <sql dbms="all">
             CREATE TABLE file_event
             (
-            file_id              VARCHAR(64)          NOT NULL,
-            type                 VARCHAR(64)          NOT NULL,
-            payload              VARCHAR(64)          NOT NULL,
+            file_id VARCHAR(64) NOT NULL,
+            type VARCHAR(64) NOT NULL,
+            payload VARCHAR(64) NOT NULL,
             CONSTRAINT file_event_pk PRIMARY KEY (file_id)
             );
         </sql>
