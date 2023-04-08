@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create_file_data_table" author="maksym.stepanenko">
+        <preConditions onFail="CONTINUE" onFailMessage="file_data table already exist">
+            <not>
+                <tableExists tableName="file_data"/>
+            </not>
+        </preConditions>
+        <sql dbms="all">
+            CREATE TABLE file_data
+            (
+                id                   VARCHAR(64)          NOT NULL,
+                name                 VARCHAR(50)          NOT NULL,
+                format               VARCHAR(50),
+                CONSTRAINT file_data_pk PRIMARY KEY (id)
+            );
+        </sql>
+        <rollback>
+            <sql>
+                DROP TABLE file_data;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="create_file_event_table" author="maksym.stepanenko">
+        <preConditions onFail="CONTINUE" onFailMessage="file_event table already exist">
+            <not>
+                <tableExists tableName="file_event"/>
+            </not>
+        </preConditions>
+        <sql dbms="all">
+            CREATE TABLE file_event
+            (
+            file_id              VARCHAR(64)          NOT NULL,
+            type                 VARCHAR(64)          NOT NULL,
+            payload              VARCHAR(64)          NOT NULL,
+            CONSTRAINT file_event_pk PRIMARY KEY (file_id)
+            );
+        </sql>
+        <rollback>
+            <sql>
+                DROP TABLE file_event;
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

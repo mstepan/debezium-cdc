@@ -1,0 +1,14 @@
+datasources:
+  default:
+    dialect: H2
+    driverClassName: org.h2.Driver
+    # H2 compatibility with Oracle check http://h2database.com/html/features.html#compatibility
+    url: jdbc:h2:mem:devDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE;MODE=Oracle;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password: ''
+
+liquibase:
+  enabled: true
+  datasources:
+    default:
+      change-log: 'classpath:db/changelog-root.xml'

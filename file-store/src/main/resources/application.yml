@@ -1,0 +1,80 @@
+micronaut:
+  executors:
+    io:
+      # Generally speaking for database operations you want a thread pool configured that matches the maximum number
+      # of connections specified in the database connection pool.
+      # We use hikari with the default pool size, so maximumPoolSize=10
+      # (https://github.com/brettwooldridge/HikariCP#gear-configuration-knobs-baby)
+      # For connection pool sizing, check https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing
+      type: fixed
+      nThreads: 10
+  application:
+    name: fileStore
+  server:
+    port: 7070
+    context-path: /file-store
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        step: PT1M
+        descriptions: true
+  http:
+    client:
+      # Below property required to suppress HTTP client exceptions on 4xx and 5xx response codes
+      # This is super useful in our integration tests
+      # https://github.com/micronaut-projects/micronaut-core/pull/2372
+      exception-on-error-status: false
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+
+datasources:
+  default:
+    dialect: ${JDBC_DIALECT}
+    driverClassName: ${JDBC_DRIVER_CLASS}
+    url: ${JDBC_URL}
+    username: ${JDBC_USER}
+    password: ${JDBC_PASSWORD}
+    schema-generate: NONE
+
+liquibase:
+  enabled: true
+  datasources:
+    default:
+      change-log: 'classpath:db/changelog-root.xml'
+
+endpoints:
+  all:
+    port: 7071
+  info:
+    enabled: true
+    sensitive: false
+  routes:
+    enabled: true
+    sensitive: false
+  prometheus:
+    enabled: true
+    sensitive: false
+  health:
+    enabled: true
+    sensitive: false
+    details-visible: ANONYMOUS
+    database:
+      enabled: true
+    jdbc:
+      enabled: false
+
+jackson:
+  serialization:
+    serializationInclusion: NON_NULL # do not serialize null fields
+    writeDatesAsTimestamps: false
+  deserialization:
+    failOnUnknownProperties: true
+
+netty:
+  default:
+    allocator:
+      max-order: 3

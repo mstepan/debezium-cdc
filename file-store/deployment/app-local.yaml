@@ -1,0 +1,86 @@
+#####################################
+# Service
+#####################################
+kind: Service
+apiVersion: v1
+metadata:
+  name: file-store-service
+  labels:
+    app: file-store-service
+spec:
+  type: NodePort
+  selector:
+    app: file-store-pod
+  ports:
+    - port: 7070
+      name: api
+      nodePort: 30070
+    - port: 7071
+      name: health
+      nodePort: 30071
+---
+#####################################
+# Deployment
+#####################################
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: file-store-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: file-store-pod
+  template:
+    metadata:
+      labels:
+        app: file-store-pod
+        version: v1
+    spec:
+      containers:
+        - name: metadata-service
+          image: mylocal/file-store:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 7070 # api
+            - containerPort: 7071 # health & metrics
+          #
+          # for JVM tuning and CPU/RAM check https://docs.microsoft.com/en-us/azure/developer/java/containers/kubernetes
+          #
+          env:
+            - name: JDBC_DIALECT
+              value: "POSTGRES"
+            - name: JDBC_DRIVER_CLASS
+              value: "org.postgresql.Driver"
+            - name: JDBC_URL
+              value: "jdbc:postgresql://localhost:5432/postgres?currentSchema=public"
+            - name: JDBC_USER
+              value: "postgres"
+            - name: JDBC_PASSWORD
+              value: "postgres"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:+UseParallelGC -XX:MaxRAMPercentage=75 -XX:MaxMetaspaceSize=217578K -XX:ReservedCodeCacheSize=240M -Xss1M -Xmx3638805K"
+          resources:
+            limits:
+              cpu: "2"
+              memory: "4Gi"
+            requests:
+              cpu: "2"
+              memory: "4Gi"
+          livenessProbe:
+            httpGet:
+              path: /file-store/health/liveness
+              port: 7071
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            # better to use 3 seconds here instead of default 1 sec, otherwise first liveness check can spuriously fail
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /file-store/health/readiness
+              port: 7071
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+
+---

@@ -1,0 +1,77 @@
+####################################
+# Base ENVs
+####################################
+# For local service
+####################################
+export SERVICE_URL=http://0.0.0.0:7070
+export ADMIN_URL=http://0.0.0.0:7071
+
+####################################
+## For local k8s
+####################################
+export SERVICE_URL=http://0.0.0.0:30070
+export ADMIN_URL=http://0.0.0.0:30071
+
+####################################
+# Add File data
+####################################
+curl -v -X POST -H 'Content-Type: application/json' -i  \
+    -d '{"id":"aa6f3bcc-d1e0-4e69-9c1f-1401ae356e8f", "name":"omics/human-genome.fastq", "format": "FASTQ"}' \
+    $SERVICE_URL/file-store/v1/files
+
+==>
+ location: /file-store/v1/files/aa6f3bcc-d1e0-4e69-9c1f-1401ae356e8f
+
+####################################
+# Get File data
+####################################
+curl -v -X GET $SERVICE_URL/file-store/v1/files/aa6f3bcc-d1e0-4e69-9c1f-1401ae356e8f | jq
+
+####################################
+# OpenAPI endpoint
+####################################
+curl $SERVICE_URL/file-store/swagger/file-store-1.0.0.yml
+
+####################################
+# Routes
+####################################
+curl -v -X GET $ADMIN_URL/file-store/routes | jq
+
+####################################
+# Health
+####################################
+curl -v -X GET $ADMIN_URL/file-store/health | jq
+
+####################################
+# Metrics
+####################################
+## Prometheus format
+curl -s -X GET $ADMIN_URL/file-store/prometheus
+
+## JSON format
+curl -v -X GET $ADMIN_URL/file-store/metrics | jq
+
+# The number of classes that are currently loaded in the Java virtual machine
+curl -v -X GET $ADMIN_URL/file-store/metrics/jvm.classes.loaded | jq
+
+# The amount of used memory
+curl -v -X GET $ADMIN_URL/file-store/metrics/jvm.memory.used | jq
+
+# The current number of live threads including both daemon and non-daemon threads
+curl -v -X GET $ADMIN_URL/file-store/metrics/jvm.threads.live| jq
+
+# The current number of threads in the pool
+curl -v -X GET $ADMIN_URL/file-store/metrics/executor.pool.size | jq
+
+# The approximate number of tasks that are queued for execution
+curl -v -X GET $ADMIN_URL/file-store/metrics/executor.queued | jq
+
+# The open file descriptor count
+curl -v -X GET $ADMIN_URL/file-store/metrics/process.files.open | jq
+
+# Total hikari DB connections
+curl -v -X GET $ADMIN_URL/file-store/metrics/hikaricp.connections | jq
+
+
+
+
