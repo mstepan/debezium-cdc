@@ -8,6 +8,12 @@ Fully working solution for transactional messaging pattern using Debezium CDC.
 
 ## Running locally
 
+* Build `file-store` & `metadata` and create local docker images
+```bash
+cd infra
+./build-all.sh
+```
+
 * Start all Debezium related containers:
 ```bash
 cd infra
@@ -15,20 +21,8 @@ cd infra
 ````
 This will spin up Postgresql DB, Kafka, Zookeeper and Debezium connector using docker compose file from `infra-compose.yaml`
 
-* Start `file-store` service that will generate DB schema using liquibase
-```
-cd file-store
-./run.sh
-```
-
 * Create postgresql schema called `metadata`
 For details check `metadata/db/create-db-schema.sh`
-
-* Start `metadata` service. Metadata service will generate all required tables inside `metadata` postgersql schema.
-```bash
-cd metadata
-./run.sh
-```
 
 * Register Debezium connector for postgresql DB and table. Check `curl` commands from `file-store/curl-tests/connector-operations.txt`
 
@@ -49,4 +43,18 @@ Remove all docker containers using:
 ```bash
 cd infra
 ./cleanup-infra.sh
+```
+
+### Troubleshooting
+
+Check `metadata` container logs
+
+```bash
+docker logs -f infra-metadata-1
+```
+
+Check `file-store` container logs
+
+```bash
+docker logs -f infra-file-store-1
 ```

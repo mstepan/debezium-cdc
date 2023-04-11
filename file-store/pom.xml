@@ -43,7 +43,6 @@
     <postgresql.jdbc.version>42.6.0</postgresql.jdbc.version>
     <!-- Plugins -->
     <maven.enforcer.plugin.version>3.2.1</maven.enforcer.plugin.version>
-    <hcgbu.maven.tile.spotbugs.version>4.7.3.0</hcgbu.maven.tile.spotbugs.version>
   </properties>
 
 
@@ -409,6 +408,7 @@
         <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>4.7.3.4</version>
           <configuration>
             <!--
             Disable detector:

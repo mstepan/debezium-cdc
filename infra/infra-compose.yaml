@@ -62,3 +62,18 @@ services:
       - JDBC_URL=jdbc:postgresql://postgres:5432/postgres?currentSchema=metadata
       - JDBC_USER=postgres
       - JDBC_PASSWORD=postgres
+
+  file-store:
+    image: mylocal/file-store:1.0.0
+    ports:
+      - "7070:7070"
+      - "7071:7071"
+    links:
+      - kafka
+      - postgres
+    environment:
+      - JDBC_DIALECT=POSTGRES
+      - JDBC_DRIVER_CLASS=org.postgresql.Driver
+      - JDBC_URL=jdbc:postgresql://postgres:5432/postgres?currentSchema=public
+      - JDBC_USER=postgres
+      - JDBC_PASSWORD=postgres
