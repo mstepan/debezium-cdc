@@ -1,0 +1,13 @@
+{
+  "name": "file-outbox-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.password": "postgres",
+    "database.dbname" : "postgres",
+    "topic.prefix": "filesync1",
+    "table.include.list": "public.file_outbox"
+  }
+}

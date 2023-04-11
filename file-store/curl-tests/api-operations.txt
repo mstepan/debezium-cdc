@@ -7,12 +7,6 @@ export SERVICE_URL=http://0.0.0.0:7070
 export ADMIN_URL=http://0.0.0.0:7071
 
 ####################################
-## For local k8s
-####################################
-export SERVICE_URL=http://0.0.0.0:30070
-export ADMIN_URL=http://0.0.0.0:30071
-
-####################################
 # Add File data
 ####################################
 curl -v -X POST -H 'Content-Type: application/json' -i  \

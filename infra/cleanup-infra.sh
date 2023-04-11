@@ -2,4 +2,4 @@
 
 export DEBEZIUM_VERSION=2.1
 
-docker compose -f infra-compose.yaml up
+docker compose -f infra-compose.yaml down
