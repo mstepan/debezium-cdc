@@ -5,5 +5,7 @@ import java.util.Optional;
 
 public interface FileMetadataRepository {
 
+    FileMetadata save(FileMetadata metadata);
+
     Optional<FileMetadata> findById(String id);
 }
