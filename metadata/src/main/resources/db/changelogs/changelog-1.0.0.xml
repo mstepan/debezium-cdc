@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create_file_metadata_table" author="maksym.stepanenko">
+        <preConditions onFail="CONTINUE" onFailMessage="file_metadata table already exist">
+            <not>
+                <tableExists tableName="file_metadata"/>
+            </not>
+        </preConditions>
+        <sql dbms="all">
+            CREATE TABLE file_metadata
+            (
+                id VARCHAR(64)NOT NULL,
+                name VARCHAR(50) NOT NULL,
+                format VARCHAR(64),
+                CONSTRAINT file_data_pk PRIMARY KEY (id)
+            );
+        </sql>
+        <rollback>
+            <sql>
+                DROP TABLE file_metadata;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
