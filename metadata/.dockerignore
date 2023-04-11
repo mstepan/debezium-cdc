@@ -2,7 +2,7 @@
 *
 
 # Allow files and directories
-!/target/metadata-service-*.jar
+!/target/metadata-*.jar
 
 # Ignore unnecessary files inside allowed directories
 # This should go after the allowed directories

@@ -46,6 +46,10 @@ liquibase:
     default:
       change-log: 'classpath:db/changelog-root.xml'
 
+kafka:
+  bootstrap:
+    servers: kafka:9092
+
 endpoints:
   all:
     port: 9091

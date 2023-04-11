@@ -116,25 +116,21 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- postgresql JDBC driver -->
+     <!-- Postgresql JDBC driver & liquibase -->
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>${postgresql.jdbc.version}</version>
     </dependency>
-
     <dependency>
       <groupId>io.micronaut.liquibase</groupId>
       <artifactId>micronaut-liquibase</artifactId>
     </dependency>
 
+    <!-- Kafka -->
     <dependency>
-      <groupId>io.projectreactor</groupId>
-      <artifactId>reactor-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.reactivestreams</groupId>
-      <artifactId>reactive-streams</artifactId>
+      <groupId>io.micronaut.kafka</groupId>
+      <artifactId>micronaut-kafka</artifactId>
     </dependency>
 
     <!-- Metrics -->

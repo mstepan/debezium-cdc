@@ -1,17 +1,22 @@
 version: '2'
 services:
 
+ #############################################################################
+ # Kafka connection in docker details
+ # https://github.com/wurstmeister/kafka-docker/wiki/Connectivity
+ #############################################################################
+
   zookeeper:
     image: quay.io/debezium/zookeeper:${DEBEZIUM_VERSION}
     ports:
-      - 2181:2181
-      - 2888:2888
-      - 3888:3888
+      - "2181:2181"
+      - "2888:2888"
+      - "3888:3888"
 
   kafka:
     image: quay.io/debezium/kafka:${DEBEZIUM_VERSION}
     ports:
-      - 9092:9092
+      - "9092:9092"
     links:
       - zookeeper
     environment:
@@ -20,7 +25,7 @@ services:
   postgres:
     image: quay.io/debezium/example-postgres:${DEBEZIUM_VERSION} #postgres:15
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -28,7 +33,7 @@ services:
   connect:
     image: quay.io/debezium/connect:${DEBEZIUM_VERSION}
     ports:
-      - 8083:8083
+      - "8083:8083"
     links:
       - kafka
       - postgres
@@ -42,3 +47,18 @@ services:
 # directory and uncomment the lines below
 #    volumes:
 #     - ./debezium-connector-postgres:/kafka/connect/debezium-connector-postgres
+
+  metadata:
+    image: mylocal/metadata:1.0.0
+    ports:
+      - "9090:9090"
+      - "9091:9091"
+    links:
+      - kafka
+      - postgres
+    environment:
+      - JDBC_DIALECT=POSTGRES
+      - JDBC_DRIVER_CLASS=org.postgresql.Driver
+      - JDBC_URL=jdbc:postgresql://postgres:5432/postgres?currentSchema=metadata
+      - JDBC_USER=postgres
+      - JDBC_PASSWORD=postgres
