@@ -31,6 +31,9 @@ public class FileService {
         Objects.requireNonNull(fileData, "null 'fileData' detected");
         Optional<FileData> maybeFileData = Optional.of(fileDataRepo.save(fileData));
 
+        //TODO: uncomment as tombstone problem fixed
+        //outboxRepo.deleteAll();
+
         String jsonStr = "{ \"fileId\" : \"%s\", \"name\" : \"%s\", \"format\" : \"%s\" }".
             formatted(fileData.getId(), fileData.getName(), fileData.getFormat());
 

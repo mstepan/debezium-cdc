@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 @KafkaListener(offsetReset = OffsetReset.EARLIEST)
 public class FileListener {
 
+    private static final String FILE_SYNC_TOPIC_NAME = "filesync1.file.file_outbox";
+
     private final ObjectMapper mapper;
 
     private final FileMetadataRepository metadataRepo;
@@ -29,21 +31,35 @@ public class FileListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(FileListener.class);
 
-    @Topic("filesync1.file.file_outbox")
+    @Topic(FILE_SYNC_TOPIC_NAME)
     public void receive(@KafkaKey String key, String value) {
+
+        LOG.info("key {}", key);
+        LOG.info("value: {}", value);
+
         try {
             JsonNode node = mapper.readTree(value);
 
-            String payloadAsText = node.get("payload").get("after").get("payload").asText();
-            LOG.info("Message from Kafka '{}'", payloadAsText);
+            if (isCreateOperation(node.get("payload"))) {
+                String payloadAsText = node.get("payload").get("after").get("payload").asText();
+                LOG.info("Message from Kafka '{}'", payloadAsText);
 
-            JsonNode payloadNode = mapper.readTree(payloadAsText);
+                JsonNode payloadNode = mapper.readTree(payloadAsText);
 
-            metadataRepo.save(toFileMetadata(payloadNode));
+                metadataRepo.save(toFileMetadata(payloadNode));
+            }
+            else {
+                LOG.info("Kafka message not related to creation {}", value);
+            }
         }
         catch (JacksonException ex) {
             LOG.error("Can't properly read message from kafka", ex);
         }
+    }
+
+    private boolean isCreateOperation(JsonNode payloadNode) {
+        return "c".equals(payloadNode.get("op").asText());
+
     }
 
     /**
