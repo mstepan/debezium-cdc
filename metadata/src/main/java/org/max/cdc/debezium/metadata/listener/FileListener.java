@@ -34,8 +34,8 @@ public class FileListener {
     @Topic(FILE_SYNC_TOPIC_NAME)
     public void receive(@KafkaKey String key, String value) {
 
-        LOG.info("key {}", key);
-        LOG.info("value: {}", value);
+//        LOG.info("key {}", key);
+//        LOG.info("value: {}", value);
 
         try {
             JsonNode node = mapper.readTree(value);
