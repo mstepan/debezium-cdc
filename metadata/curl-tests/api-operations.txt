@@ -1,4 +1,4 @@
 ####################################
 # Get Metadata for File
 ####################################
-curl -v -X GET http://0.0.0.0:9090/metadata/v1/files/446f3baa-d1e0-4e69-221f-1401ae256446 | jq
+curl -v -X GET http://0.0.0.0:9090/metadata/v1/files/123f3bcc-d1e0-4e69-9c1f-1401ae356e8f | jq

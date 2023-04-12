@@ -5,3 +5,4 @@
 docker exec -it infra-postgres-1 psql -U postgres
 
 CREATE SCHEMA metadata;
+CREATE SCHEMA file;

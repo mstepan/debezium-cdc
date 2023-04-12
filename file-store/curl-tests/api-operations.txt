@@ -10,11 +10,11 @@ export ADMIN_URL=http://0.0.0.0:7071
 # Add File data
 ####################################
 curl -v -X POST -H 'Content-Type: application/json' -i  \
-    -d '{"id":"446f3bcc-d1e0-4e69-9c1f-1401ae356e8f", "name":"omics/human-genome.fastq", "format": "FASTQ"}' \
+    -d '{"id":"123f3bcc-d1e0-4e69-9c1f-1401ae356e8f", "name":"omics/human-genome.fastq", "format": "FASTQ"}' \
     http://0.0.0.0:7070/file-store/v1/files
 
 ==>
- location: /file-store/v1/files/aa6f3bcc-d1e0-4e69-9c1f-1401ae356e8f
+ location: /file-store/v1/files/123f3bcc-d1e0-4e69-9c1f-1401ae356e8f
 
 ####################################
 # Get File data

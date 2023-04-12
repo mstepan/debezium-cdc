@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <a href="https://micronaut-projects.github.io/micronaut-kafka/latest/guide/">Micronaut Kafka</a>
+ * <a href="https://micronaut-projects.github.io/micronaut-kafka/4.5.0/guide/index.html">Micronaut Kafka</a>
  */
 @KafkaListener(offsetReset = OffsetReset.EARLIEST)
 public class FileListener {
@@ -29,12 +29,15 @@ public class FileListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(FileListener.class);
 
-    @Topic("filesync1.public.file_outbox")
+    @Topic("filesync1.file.file_outbox")
     public void receive(@KafkaKey String key, String value) {
         try {
             JsonNode node = mapper.readTree(value);
 
-            JsonNode payloadNode = mapper.readTree(node.get("payload").get("after").get("payload").asText());
+            String payloadAsText = node.get("payload").get("after").get("payload").asText();
+            LOG.info("Message from Kafka '{}'", payloadAsText);
+
+            JsonNode payloadNode = mapper.readTree(payloadAsText);
 
             metadataRepo.save(toFileMetadata(payloadNode));
         }
@@ -48,8 +51,7 @@ public class FileListener {
      * to FileMetadata domain object.
      */
     private static FileMetadata toFileMetadata(JsonNode payloadNode) {
-        return new FileMetadata(payloadNode.get("fileId").asText(),
-            payloadNode.get("name").asText(),
+        return new FileMetadata(payloadNode.get("fileId").asText(), payloadNode.get("name").asText(),
             payloadNode.get("format").asText());
     }
 }

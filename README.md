@@ -21,8 +21,11 @@ cd infra
 ````
 This will spin up Postgresql DB, Kafka, Zookeeper and Debezium connector using docker compose file from `infra-compose.yaml`
 
+* Create postgresql schema called `file`
+For details check `infra/db`
+
 * Create postgresql schema called `metadata`
-For details check `metadata/db/create-db-schema.sh`
+For details check `infra/db`
 
 * Register Debezium connector for postgresql DB and table. Check `curl` commands from `file-store/curl-tests/connector-operations.txt`
 

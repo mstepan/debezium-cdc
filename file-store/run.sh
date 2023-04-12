@@ -3,7 +3,7 @@
 # Postgresql
 export JDBC_DIALECT="POSTGRES"
 export JDBC_DRIVER_CLASS="org.postgresql.Driver"
-export JDBC_URL="jdbc:postgresql://localhost:5432/postgres?currentSchema=public"
+export JDBC_URL="jdbc:postgresql://localhost:5432/postgres?currentSchema=file"
 export JDBC_USER="postgres"
 export JDBC_PASSWORD="postgres"
 

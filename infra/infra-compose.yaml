@@ -74,6 +74,6 @@ services:
     environment:
       - JDBC_DIALECT=POSTGRES
       - JDBC_DRIVER_CLASS=org.postgresql.Driver
-      - JDBC_URL=jdbc:postgresql://postgres:5432/postgres?currentSchema=public
+      - JDBC_URL=jdbc:postgresql://postgres:5432/postgres?currentSchema=file
       - JDBC_USER=postgres
       - JDBC_PASSWORD=postgres
